@@ -16,15 +16,15 @@ const cartSlice = createSlice({
     addToCart:(state,action) => {
       const obj={...action.payload}
       let existingItem=state.cart.find((ele)=>ele.id===action.payload.id)
-      if (existingItem) {
-        console.log("no")
+      if(existingItem) {
+       // console.log("no")
         toast.warning("item allready added!",{position:"top-right"})
       } 
       else {
         // Add the new item to the cart
         obj.quantity=1;
             state.cart.push(obj);
-            // toast.success("item added!",{position:"top-left"})
+           toast.success("item added!",{position:"top-left"})
 
     
       }
@@ -53,7 +53,7 @@ const cartSlice = createSlice({
       state.cart[index]=obj
        },
        addToWishList:(state,action)=>{
-        let existingItem=state.cart.find((ele)=>ele.id===action.payload.id)
+        let existingItem=state.WishList.find((ele)=>ele.id===action.payload.id)
         if(existingItem){
           toast.warning("item allready added!",{position:"top-right"})
         }else{

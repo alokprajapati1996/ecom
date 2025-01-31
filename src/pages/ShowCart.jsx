@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { decrementCardItem, incrementCardItem, removeFromCart } from '../features/CardSlice'
+import { Link } from 'react-router-dom'
 
 const ShowCart = () => {
   
@@ -23,7 +24,7 @@ const ShowCart = () => {
   return (
     <>
    
-      {store.cart.length>0 && <div className="font-sans md:max-w-4xl max-md:max-w-xl mx-auto bg-white py-4">
+      {store.cart.length>0 ?(<> <div className="font-sans md:max-w-4xl max-md:max-w-xl mx-auto bg-white py-4">
       <div className="grid md:grid-cols-3 gap-4">
         <div className="md:col-span-2 bg-gray-100 p-4 rounded-md">
           <h2 className="text-2xl font-bold text-gray-800">Cart</h2>
@@ -113,6 +114,18 @@ const ShowCart = () => {
         </div>
       </div>
     </div>
+</>):(
+  <>
+<div className='text-center  '>
+<div className='font-bold font-sans text-2xl mt-2'><h1>Your Cart is Empty</h1>
+<p>Add items that you like in your Cart</p></div>
+<div className='w-96 mx-auto'>
+  <img src="https://img.freepik.com/free-vector/shopping-cart-realistic_1284-6011.jpg" alt="" />
+  <Link to={"/"} className='bg-blue-800 px-4 py-1 rounded-md text-white text-lg'>Start Shopping</Link>
+  </div>
+
+</div>
+</>)
 }
 
 </>

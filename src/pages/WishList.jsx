@@ -2,7 +2,8 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RxCross2 } from "react-icons/rx";
-import { removeToWishList } from '../features/CardSlice';
+import { addToCart, removeToWishList } from '../features/CardSlice';
+import { Link } from 'react-router-dom';
 
 const WishList = () => {
     const wStore=useSelector((store)=>store.wishlist)
@@ -28,14 +29,28 @@ const WishList = () => {
           <h4 className="text-sm sm:text-base font-bold text-gray-800">{ele.title}</h4>
           <h4 className="text-sm sm:text-base text-gray-800 font-bold mt-2">$22 <strike className="text-gray-500 ml-1">${ele.price}</strike></h4>
         </div>
-        <button type="button" className="bg-gray-700 font-semibold hover:bg-gray-800 text-white text-sm px-2 py-2 w-full">Add to Cart</button>
+        <button type="button" className="bg-gray-700 font-semibold hover:bg-gray-800
+         text-white text-sm px-2 py-2 w-full "onClick={()=>dispatch(addToCart(ele))}>Add to Cart</button>
       </div>
     </div>
     })
 }
   </div>
-</div>):(<div><h1>Your wishlist is empty</h1>
-<p>Save items that yiu like in your wishlist</p></div>)
+</div>):
+(
+<>
+<div className='text-center  '>
+<div className='font-bold font-sans text-2xl mt-2'><h1>Your Wishlist is Empty</h1>
+<p>save items that you like in your Wishlist</p></div>
+<div className='w-96 mx-auto'>
+  <img src="https://img.freepik.com/free-vector/shopping-cart-realistic_1284-6011.jpg" alt="" />
+  <Link to={"/"} className='bg-blue-800 px-4 py-1 rounded-md text-white text-lg'>Start Shopping</Link>
+  </div>
+
+</div>
+</>
+)
+
 }
 </>
   )

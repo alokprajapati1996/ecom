@@ -4,13 +4,42 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addToCart, addToWishList } from '../features/CardSlice'
 
-const Cart = () => {
+const Cart = ({searchItem}) => {
     // let store = useSelector((state)=>state.cart)
     // console.log(store)
+console.log(searchItem);
 
     const[card,setCard]=useState([])
   const dispatch = useDispatch();
+  const [allFilter, setAllFilter]=useState([])
 
+let category=[
+  "All",
+  "beauty",
+  "fragrances",
+  "furniture",
+  "groceries",
+  "home-decoration",
+  "kitchen-accessories",
+  "laptops",
+  "mens-shirts",
+  "mens-shoes",
+  "mens-watches",
+  "mobile-accessories",
+  "motorcycle",
+  "skin-care",
+  "smartphones",
+  "sports-accessories",
+  "sunglasses",
+  "tablets",
+  "tops",
+  "vehicle",
+  "womens-bags",
+  "womens-dresses",
+  "womens-jewellery",
+  "womens-shoes",
+  "womens-watches"
+]
 async function check(){
     let spiFetch=await fetch("https://dummyjson.com/products?limit=0")
     const data= await spiFetch.json();
@@ -21,14 +50,45 @@ async function check(){
 useEffect(()=>{
     check();
 },[])
+let prps=searchItem;
+const handleSearch=(item)=>{
+console.log(item);
+let val=item||prps;
+console.log(val);
 
+if(val==="All"){
+  val=""
+}
+
+let productCopy=card.filter((ele)=>ele.category.toLowerCase().includes(val.toLowerCase()))
+console.log(productCopy);
+setAllFilter(productCopy)
+
+}
+// if(searchItem){
+//   let productsCopy=card.filter((ele)=>ele.category.toLowerCase().
+//   includes(searchItem.toLowerCase()))
+// console.log(productsCopy);
+//  setCardSearch(productsCopy)
+
+// }
+
+let finalSearch=[...card]
+
+if(allFilter.length>0){
+
+  finalSearch=allFilter;
+  
+}
+// if(cardSearch.length>0){
+//   finalSearch=cardSearch
+// }
 // const handleAddToCart=(obj)=>{
 //     dispatch(addToCart(obj));
 //     console.log(obj);
-    
-    
-    
-//       }
+//
+
+     console.log(allFilter);
       
   return (
     <>
@@ -45,17 +105,33 @@ useEffect(()=>{
             </div>
         })}
     </div> */}
-    <div className=" font-sans p-4 mx-auto lg:max-w-6xl md:max-w-3xl">
-    <div className="  grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 
+  
+    
+
+    <div className=" font-sans flex p-6   lg:max-w-6xl md:max-w-3xl">
+    
+      <div className='bg-gray-500 h-max' >
+        <ul>
+          {
+            category.map((cat,i)=>{
+              return <li className='border-b-2 text-center cursor-pointer p-2'onClick={()=>handleSearch(cat)}>{cat}</li>
+            })
+          }
+        </ul>
+      </div>
+    
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 
     sm:gap-6 ">
     {
-      card.map((ele)=>{
+      finalSearch.map((ele)=>{
       return    <div className="">
       <div className=' hover:outline-gray-800'>
         <div className="bg-white flex flex-col overflow-hidden cursor-pointer hover:shadow-xl transition-all">
           <div className="w-48 h-48">
-            <Link to="/singleCart" state={ele}><img src={ele.thumbnail} alt="Product 1" className="w-full object-contain 
-            object-top aspect-[230/307]" /></Link>
+            <Link to="/singleCart" state={ele}>
+            <img src={ele.thumbnail} alt="Product 1"
+             className="w-full object-contain 
+            object-top aspect-[230/307] ms-12" /></Link>
           </div>
           <div className="p-2 flex-1 flex flex-col">
             <div className="flex-1">
@@ -101,6 +177,7 @@ useEffect(()=>{
     
     </div>
  </div>
+
     </>
   )
 }
